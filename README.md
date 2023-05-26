@@ -58,7 +58,8 @@ To be fully honest, it has only been tested on this video, but I'm pretty confid
 ## Visualizing the data
 Having the data is good but visualizing it is way better. *Take that front-end haters*.  
 The best library I found for this usecase is `cytoscape.js` with a `dagre` algorithm. It might not be the best combo but it's pretty decent and does the work. After a few tweeks it fully usable and barely lacks features.  
-You can see the final result [here](https://vdvh.naoufel.co). (Be careful it's French).
+You can see the final result [here](https://vdvh.naoufel.co). (Be careful it's French).  
+I also included in this repo a quick way to visualize the data [here](/visualizer/).
 ## Conclusion
 Hey, if you made it here you're the only person fully reading the readmes on github, and not just copying the commands and the code, big respect for that.  
 If you want to discuss anytime, follow me on [twitter](https://twitter.com/nowlow_).
