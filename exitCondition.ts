@@ -1,13 +1,10 @@
 import { Player } from "./types";
 
 function exitCondition(player: Player): boolean | "NOTSET" {
-  const { shortDescription, title } = player.videoDetails;
+  // return true if the video is out of the path, false if it's still on
+  // NOTSET by default
 
-  return !shortDescription
-        .toLowerCase()
-        .includes("la vidéo dont vous êtes le héron") &&
-      (title !== "." &&
-      !!title.replaceAll('ㅤ', '').length)
+  return "NOTSET";
 }
 
 export default exitCondition;

@@ -54,7 +54,7 @@ And then:
 ```
 $ npm start aYFMOPMH-Eo
 ```
-To be fully honest, it has only been tested on this video, but I'm pretty confident that it would work until you find an exit condition.  
+To be fully honest, it has only been tested on this video, but I'm pretty confident that it would work unless you don't find an exit condition, and y'know, fiction is not doing great on youtube these days, so it's hard to find good creators producing these kind of videos.  
 ## Visualizing the data
 Having the data is good but visualizing it is way better. *Take that front-end haters*.  
 The best library I found for this usecase is `cytoscape.js` with a `dagre` algorithm. It might not be the best combo but it's pretty decent and does the work. After a few tweeks it fully usable and barely lacks features.  
