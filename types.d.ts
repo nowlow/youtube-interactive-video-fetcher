@@ -1,3 +1,5 @@
+import { YTNodeInfos } from "./youtubeDataUtils";
+
 export interface Player {
   responseContext: ResponseContext;
   playabilityStatus: PlayabilityStatus;
@@ -19,6 +21,7 @@ export interface Player {
 export interface YTNode {
   id: string;
   thumbnail: string;
+  infos?: YTNodeInfos;
   next: string[];
 }
 

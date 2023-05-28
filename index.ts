@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import axios from "axios";
 import { Player, YTNode } from "./types";
-import exitCondition from "./exitCondition";
+import { exitCondition, getYTNodeInfos } from "./youtubeDataUtils";
 
 console.log(`Youtube interactive video fetcher!`);
 
@@ -110,36 +110,46 @@ async function recursiveVideoFinder(videoId: string) {
   }
 
   try {
-    const response = await getVideo(videoId);
+    const { data: player } = await getVideo(videoId);
 
-    const thumbnails = response.data.videoDetails.thumbnail.thumbnails;
-
-    const shouldExit = exitCondition(response.data);
+    const shouldExit = exitCondition(player);
 
     if (shouldExit === "NOTSET") {
       console.error("You must edit exitCondition.ts for this program to work");
       process.exit(1);
     }
 
+    const thumbnails = player.videoDetails.thumbnail.thumbnails;
+    const thumbnail = thumbnails[Math.ceil(thumbnails.length / 2) - 1].url;
+
+    const addInfos = (node: Omit<YTNode, 'infos'>): YTNode => {
+      const infos = getYTNodeInfos(player);
+
+      if (infos) {
+        return { ...node, infos };
+      }
+      return node;
+    }
+
     if (shouldExit === true) {
       console.log(
-        `${videoId} is not in the main path ("${response.data.videoDetails.title}")`
+        `${videoId} is not in the main path ("${player.videoDetails.title}")`
       );
-      nodes.push({
+      nodes.push(addInfos({
         id: videoId,
-        thumbnail: thumbnails[Math.ceil(thumbnails.length / 2) - 1].url,
+        thumbnail,
         next: [],
-      });
+      }));
       return;
     }
 
-    const next = getNextVideos(response.data, videoId);
+    const next = getNextVideos(player, videoId);
 
-    nodes.push({
+    nodes.push(addInfos({
       id: videoId,
-      thumbnail: thumbnails[Math.ceil(thumbnails.length / 2) - 1].url,
+      thumbnail,
       next,
-    });
+    }));
 
     console.log(
       `${videoId} has ${next.length} alternative ending (${next

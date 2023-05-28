@@ -10,12 +10,15 @@ Find all the alternatives and paths for an interactive video on youtube.
 | - | - |
 | Player | The youtube API call response type, it has been generated from a single reponse so it might not be accurate. If you find anything incorrect open a PR I'll be happy to merge it. It contains all the infos about the video, the next videos and the channel.  
 | YTNode | Data as it's saved in the `nodes.json` file |
+| YTNodeInfos | Data that you can add to each node |
 
 
 ## How to use?
 Before you can fetch all of you're favorite's interactive video's paths, you'll have to do some changes to the code.  
-### Edit `exitCondition.ts`
-There is a function in that files that takes a `Player`. It should return a boolean, `true` if this branch is over, `false` if it should continue to dig.
+### Edit `youtubeDataUtils.ts`
+There is two functions in that files that takes a `Player`.  
+- `exitCondition` should return a boolean, `true` if this branch is over, `false` if it should continue to dig.  
+- `getYTNodeInfos` should return a YTNodeInfos that can contain any info you want about the video.  
 ### Find your start video id
 In a youtube URL, it's typically `https://www.youtube.com/watch?v=<video_id>`.
 ### Don't forget to run `npm i`
@@ -33,7 +36,7 @@ Nothing is risk-free, but it seems to be pretty safe to make loads of these call
 I added a sleep function that will wait between 50 and 100 ms between the recursives. Even if I don't think that's the case, I added some randomness to escape the bot detectors of youtube (lol). If you take no sleep time, you might end up with connection resets.
 ## Example
 This whole project was initiated by ["La Vidéo Dont Vous Êtes Le Héron"](https://www.youtube.com/watch?v=aYFMOPMH-Eo) by INERNET. So the example will use this video.  
-`exitCondition.ts`
+`youtubeDataUtils.ts`
 ```ts
 import { Player } from "./types";
 
@@ -48,7 +51,13 @@ function exitCondition(player: Player): boolean | "NOTSET" {
       !!title.replaceAll('ㅤ', '').length)
 }
 
-export default exitCondition;
+export type YTNodeInfos = { views: string };
+
+function getYTNodeInfos(player: Player): YTNodeInfos {
+  return { views: player.videoDetails.viewCount };
+}
+
+export { exitCondition, getYTNodeInfos };
 ```
 And then:
 ```
